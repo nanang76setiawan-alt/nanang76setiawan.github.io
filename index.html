@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Game Jodohkan Asmaul Husna</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f2f2f2;
+    }
+    h1 {
+        color: #2c3e50;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+    }
+    .box {
+        width: 200px;
+    }
+    .item {
+        background: white;
+        margin: 8px;
+        padding: 10px;
+        border: 2px solid #333;
+        cursor: pointer;
+        border-radius: 6px;
+        user-select: none;
+    }
+    .selected {
+        background: #ffeaa7;
+    }
+    .correct {
+        background: #55efc4;
+        pointer-events: none;
+    }
+    .wrong {
+        background: #ff7675;
+    }
+</style>
+</head>
+<body>
+
+<h1>🎮 Game Jodohkan Asmaul Husna</h1>
+<p>Klik Asmaul Husna lalu klik artinya</p>
+<h3>Skor: <span id="score">0</span></h3>
+
+<div class="container">
+    <div class="box" id="arab">
+        <div class="item" data-pair="1">الرَّحْمٰنُ</div>
+        <div class="item" data-pair="2">الرَّحِيْمُ</div>
+        <div class="item" data-pair="3">الْمَلِكُ</div>
+        <div class="item" data-pair="4">الْقُدُّوسُ</div>
+    </div>
+
+    <div class="box" id="arti">
+        <div class="item" data-pair="3">Maha Merajai</div>
+        <div class="item" data-pair="1">Maha Pengasih</div>
+        <div class="item" data-pair="4">Maha Suci</div>
+        <div class="item" data-pair="2">Maha Penyayang</div>
+    </div>
+</div>
+
+<script>
+let selectedArab = null;
+let score = 0;
+
+const arabItems = document.querySelectorAll("#arab .item");
+const artiItems = document.querySelectorAll("#arti .item");
+
+arabItems.forEach(item => {
+    item.addEventListener("click", () => {
+        arabItems.forEach(i => i.classList.remove("selected"));
+        selectedArab = item;
+        item.classList.add("selected");
+    });
+});
+
+artiItems.forEach(item => {
+    item.addEventListener("click", () => {
+        if (!selectedArab) return;
+
+        if (item.dataset.pair === selectedArab.dataset.pair) {
+            item.classList.add("correct");
+            selectedArab.classList.add("correct");
+            score++;
+            document.getElementById("score").innerText = score;
+        } else {
+            item.classList.add("wrong");
+            setTimeout(() => item.classList.remove("wrong"), 500);
+        }
+
+        selectedArab.classList.remove("selected");
+        selectedArab = null;
+    });
+});
+</script>
+
+</body>
+</html>
